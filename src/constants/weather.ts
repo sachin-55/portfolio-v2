@@ -7,7 +7,7 @@ export const ACCU_WEATHER_SEARCH_BY_POSTAL_CODE =
 export const ACCU_WEATHER_SEARCH_BY_GEO_POSITION =
   'locations/v1/search?q={{GEO_POSITION}}&apikey={{APIKEY}}';
 
-export const ACCU_WEATHER_CURRENT_CONSITIONS =
+export const ACCU_WEATHER_CURRENT_CONDITIONS =
   'currentconditions/v1/{{LOCATION_KEY}}?apikey={{APIKEY}}&details=true';
 
 export const ACCU_WEATHER_FORECAST_BY_DAY =
