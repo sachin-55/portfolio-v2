@@ -17,6 +17,13 @@ import {
   FcServices,
   FcSurvey
 } from 'react-icons/fc';
+import {
+  APIS_PAGE,
+  BLOG_PAGE,
+  CONTACT_PAGE,
+  My_CV_PAGE,
+  PROJECTS_PAGE
+} from '../../constants/routePaths';
 export interface ILandingPageProps {}
 
 const LandingPage: React.FC<ILandingPageProps> = () => {
@@ -26,29 +33,25 @@ const LandingPage: React.FC<ILandingPageProps> = () => {
     <LandingPageStyled isLandedOnEvenTime={false} colors={colors}>
       <Header />
       <ContainerStyled colors={colors}>
-        <InfoTextStyled colors={colors}>
-          <Text className="name">Sachin Bhattarai</Text>
-          <Text className="sub-text"> Web Developer </Text>
-        </InfoTextStyled>
         <Weather />
         <MenuStyled colors={colors}>
-          <Link to="/">
+          <Link to={My_CV_PAGE}>
             <FcSurvey className="icon" />
             CV
           </Link>
-          <Link to="/">
+          <Link to={BLOG_PAGE}>
             <FcReadingEbook className="icon" />
             Blogs
           </Link>
-          <Link to="/">
+          <Link to={PROJECTS_PAGE}>
             <FcCommandLine className="icon" />
             Projects
           </Link>
-          <Link to="/">
+          <Link to={CONTACT_PAGE}>
             <FcContacts className="icon" />
             Contact
           </Link>
-          <Link to="/">
+          <Link to={APIS_PAGE}>
             <FcServices className="icon" />
             API's
           </Link>
