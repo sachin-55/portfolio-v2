@@ -4,8 +4,8 @@ import { useCustomTheme } from '../../context/themeContext';
 import {
   Box,
   Flex,
+  Image,
   Input,
-  Spinner,
   Text,
   useOutsideClick
 } from '@chakra-ui/react';
@@ -18,7 +18,6 @@ import {
   API_KEY
 } from '../../constants/weather';
 import { Loader } from '../../components/Loader';
-
 type Props = {};
 
 const Weather = (props: Props) => {
@@ -31,6 +30,7 @@ const Weather = (props: Props) => {
   });
   const [searchLocation, setSearchLocation] = useState('');
   const [selectedLocation, setSelectedLocation] = useState<any>({});
+  const [currentConditions, setCurrentConditions] = useState<any>([]);
   const locationsRef = React.useRef<HTMLDivElement>(null);
 
   useOutsideClick({
@@ -83,6 +83,9 @@ const Weather = (props: Props) => {
         ).replaceAll(/{{APIKEY}}/g, API_KEY);
       const result = await axios(URL);
       console.log({ result });
+      if (result && result?.data) {
+        setCurrentConditions(result?.data);
+      }
     } catch (error) {
       console.log({ CURRENT_CONDITIONS: error });
     } finally {
@@ -111,8 +114,21 @@ const Weather = (props: Props) => {
     clearSearchLocations();
   };
 
+  const getIcon = () => {
+    if (
+      !currentConditions ||
+      currentConditions.length === 0 ||
+      !currentConditions[0]?.WeatherIcon
+    )
+      return;
+    return require(`../../assets/weatherIcons/${currentConditions[0]?.WeatherIcon}-s.png`);
+  };
+
   return (
     <WeatherStyled colors={colors}>
+      <Text align="left" fontSize="3rem" fontWeight="bold">
+        Weather Info
+      </Text>
       <Flex justifyContent="space-between" alignItems="center" w="100%">
         <Text className="title">Today</Text>
         <Box position="relative" ref={locationsRef}>
@@ -183,6 +199,153 @@ const Weather = (props: Props) => {
           </Flex>
         </Flex>
       )}
+      {loading.gettingCurrent && (
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          w="100%"
+          bg={
+            colors.name === 'main'
+              ? 'rgba(255, 255, 255, 0.25)'
+              : 'rgba(0, 0, 0, 0.5)'
+          }
+          marginTop="10px"
+          padding="10px"
+          borderRadius="10px"
+        >
+          <Loader type="large" />
+        </Flex>
+      )}
+      {!loading.gettingCurrent &&
+        currentConditions &&
+        currentConditions?.length > 0 && (
+          <Flex
+            w="100%"
+            bg={
+              colors.name === 'main'
+                ? 'rgba(255, 255, 255, 0.25)'
+                : 'rgba(0, 0, 0, 0.5)'
+            }
+            marginTop="10px"
+            padding="10px"
+            borderRadius="10px"
+          >
+            <Box flex="1">
+              <Flex w="100%" alignItems="center" justifyContent="space-between">
+                <Image src={`${getIcon()}`} />
+                <Text fontSize={14}>{currentConditions[0]?.WeatherText}</Text>
+                <Text fontSize={30} fontWeight="500">
+                  {currentConditions[0]?.Temperature.Metric.Value}&deg;
+                  {currentConditions[0]?.Temperature.Metric.Unit}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Real Feel</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.RealFeelTemperature.Metric.Value}
+                  &deg;
+                  {currentConditions[0]?.RealFeelTemperature.Metric.Unit}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Real Feel Shade</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.RealFeelTemperatureShade.Metric.Value}
+                  &deg;
+                  {currentConditions[0]?.RealFeelTemperatureShade.Metric.Unit}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Has Precipitation</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.HasPrecipitation ? 'Yes' : 'No'}
+                </Text>
+              </Flex>
+
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Relative Humidity</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.RelativeHumidity}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Indoor Relative Humidity</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.IndoorRelativeHumidity}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Dew Point</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.DewPoint.Metric.Value}
+                  &deg;
+                  {currentConditions[0]?.DewPoint.Metric.Unit}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Wind Direction</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.Wind.Direction.Degrees}
+                  {currentConditions[0]?.Wind.Direction.Localized}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Wind Speed</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.Wind.Speed.Metric.Value}
+                  {currentConditions[0]?.Wind.Speed.Metric.Unit}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Wind Gust</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.WindGust.Speed.Metric.Value}
+                  {currentConditions[0]?.WindGust.Speed.Metric.Unit}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">UV Index</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.UVIndex}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">UV Index Text</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.UVIndexText}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Visibility</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.Visibility.Metric.Value}
+                  {currentConditions[0]?.Visibility.Metric.Unit}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Cloud Cover</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.CloudCover}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Ceiling</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.Ceiling.Metric.Value}
+                  {currentConditions[0]?.Ceiling.Metric.Unit}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Pressure</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.Pressure.Metric.Value}
+                  {currentConditions[0]?.Pressure.Metric.Unit}(
+                  {currentConditions[0]?.PressureTendency.LocalizedText})
+                </Text>
+              </Flex>
+            </Box>
+          </Flex>
+        )}
     </WeatherStyled>
   );
 };
