@@ -11,8 +11,8 @@ const Header = (props: Props) => {
   return (
     <HeaderStyled colors={colors}>
       <InfoTextStyled colors={colors}>
-        <Text className="name">Sachin Bhattarai</Text>
-        <Text className="sub-text"> Web Developer </Text>
+        <Text className="name">Hey! I'm Sachin</Text>
+        <Text className="sub-text"> I'm a Web Developer. </Text>
       </InfoTextStyled>
       <Box>
         {colors.name === 'light' && (

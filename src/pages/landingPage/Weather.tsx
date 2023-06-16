@@ -3,6 +3,7 @@ import { WeatherStyled } from './styles';
 import { useCustomTheme } from '../../context/themeContext';
 import {
   Box,
+  Button,
   Flex,
   Image,
   Input,
@@ -18,7 +19,23 @@ import {
   API_KEY
 } from '../../constants/weather';
 import { Loader } from '../../components/Loader';
+import {
+  SELECTED_CURRENT_CONDITIONS,
+  SELECTED_WEATHER_LOCATION
+} from '../../constants/localStorageKeys';
+import { HiOutlineRefresh } from 'react-icons/hi';
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 type Props = {};
+
+const INITIAL_LOCATION = {
+  Version: 1,
+  Key: '241833',
+  Type: 'City',
+  Rank: 75,
+  LocalizedName: 'Thimi',
+  Country: { ID: 'NP', LocalizedName: 'Nepal' },
+  AdministrativeArea: { ID: 'BA', LocalizedName: 'Bagmati' }
+};
 
 const Weather = (props: Props) => {
   const { colors } = useCustomTheme();
@@ -29,9 +46,12 @@ const Weather = (props: Props) => {
     gettingCurrent: false
   });
   const [searchLocation, setSearchLocation] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState<any>({});
+  const [selectedLocation, setSelectedLocation] =
+    useState<any>(INITIAL_LOCATION);
   const [currentConditions, setCurrentConditions] = useState<any>([]);
   const locationsRef = React.useRef<HTMLDivElement>(null);
+  const [showAllCurrentCondition, setShowAllCurrentConditions] =
+    useState(false);
 
   useOutsideClick({
     ref: locationsRef,
@@ -39,6 +59,7 @@ const Weather = (props: Props) => {
       clearSearchLocations();
     }
   });
+
   const delayedSearch = debounce(async (text) => {
     try {
       setLoading((prev) => ({ ...prev, fetchingLocations: true }));
@@ -59,6 +80,15 @@ const Weather = (props: Props) => {
       setLoading((prev) => ({ ...prev, fetchingLocations: false }));
     }
   }, 1500);
+
+  useEffect(() => {
+    if (localStorage && localStorage.getItem(SELECTED_WEATHER_LOCATION)) {
+      const wLocation = localStorage.getItem(SELECTED_WEATHER_LOCATION);
+      if (wLocation) {
+        setSelectedLocation(JSON.parse(wLocation));
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (searchLocation?.length > 2) {
@@ -82,12 +112,19 @@ const Weather = (props: Props) => {
           location?.Key
         ).replaceAll(/{{APIKEY}}/g, API_KEY);
       const result = await axios(URL);
-      console.log({ result });
       if (result && result?.data) {
         setCurrentConditions(result?.data);
+        localStorage.setItem(
+          SELECTED_CURRENT_CONDITIONS,
+          JSON.stringify(result?.data)
+        );
       }
     } catch (error) {
       console.log({ CURRENT_CONDITIONS: error });
+      const data = localStorage.getItem(SELECTED_CURRENT_CONDITIONS);
+      if (data) {
+        setCurrentConditions(JSON.parse(data));
+      }
     } finally {
       setLoading((prev) => ({ ...prev, gettingCurrent: false }));
     }
@@ -109,8 +146,9 @@ const Weather = (props: Props) => {
     setSearchLocation('');
   };
 
-  const handleSelectLocation = (locKey: object) => {
-    setSelectedLocation(locKey);
+  const handleSelectLocation = (loc: object) => {
+    setSelectedLocation(loc);
+    localStorage.setItem(SELECTED_WEATHER_LOCATION, JSON.stringify(loc));
     clearSearchLocations();
   };
 
@@ -126,9 +164,21 @@ const Weather = (props: Props) => {
 
   return (
     <WeatherStyled colors={colors}>
-      <Text align="left" fontSize="3rem" fontWeight="bold">
-        Weather Info
-      </Text>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Text align="left" fontSize="3rem" fontWeight="bold">
+          Weather Info
+        </Text>
+        <Button
+          onClick={() => fetchCurrentConditions(selectedLocation)}
+          variant="unstyled"
+          border="none"
+          bg="none"
+          cursor="pointer"
+          padding="0px"
+        >
+          <HiOutlineRefresh size="24px" color={colors?.text} />
+        </Button>
+      </Flex>
       <Flex justifyContent="space-between" alignItems="center" w="100%">
         <Text className="title">Today</Text>
         <Box position="relative" ref={locationsRef}>
@@ -157,8 +207,6 @@ const Weather = (props: Props) => {
                 bg={colors.background}
                 borderRadius="10px"
                 p="10px"
-                maxH="250px"
-                overflowY="scroll"
               >
                 {locations.map((val: any, index) => (
                   <Box
@@ -173,7 +221,7 @@ const Weather = (props: Props) => {
                     onClick={() => handleSelectLocation(val)}
                   >
                     <Text align="left" fontWeight="600">
-                      {val?.LocalizedName}
+                      {val?.LocalizedName}123
                     </Text>
                     <Flex align="center" justifyContent="space-between">
                       <Text>{val?.AdministrativeArea?.LocalizedName}</Text>
@@ -229,8 +277,16 @@ const Weather = (props: Props) => {
             marginTop="10px"
             padding="10px"
             borderRadius="10px"
+            alignItems="center"
+            justifyContent="center"
+            direction="column"
           >
-            <Box flex="1">
+            <Box
+              flex="1"
+              paddingRight={showAllCurrentCondition ? '10px' : '0px'}
+              maxH={showAllCurrentCondition ? '300px' : '200px'}
+              overflowY={showAllCurrentCondition ? 'scroll' : 'hidden'}
+            >
               <Flex w="100%" alignItems="center" justifyContent="space-between">
                 <Image src={`${getIcon()}`} />
                 <Text fontSize={14}>{currentConditions[0]?.WeatherText}</Text>
@@ -261,6 +317,32 @@ const Weather = (props: Props) => {
                   {currentConditions[0]?.HasPrecipitation ? 'Yes' : 'No'}
                 </Text>
               </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">UV Index</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.UVIndex}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">UV Index Text</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.UVIndexText}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Wind Direction</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.Wind.Direction.Degrees}
+                  {currentConditions[0]?.Wind.Direction.Localized}
+                </Text>
+              </Flex>
+              <Flex className="weatherDataRow">
+                <Text className="weatherTitle">Wind Speed</Text>
+                <Text className="weatherValue">
+                  {currentConditions[0]?.Wind.Speed.Metric.Value}
+                  {currentConditions[0]?.Wind.Speed.Metric.Unit}
+                </Text>
+              </Flex>
 
               <Flex className="weatherDataRow">
                 <Text className="weatherTitle">Relative Humidity</Text>
@@ -282,20 +364,7 @@ const Weather = (props: Props) => {
                   {currentConditions[0]?.DewPoint.Metric.Unit}
                 </Text>
               </Flex>
-              <Flex className="weatherDataRow">
-                <Text className="weatherTitle">Wind Direction</Text>
-                <Text className="weatherValue">
-                  {currentConditions[0]?.Wind.Direction.Degrees}
-                  {currentConditions[0]?.Wind.Direction.Localized}
-                </Text>
-              </Flex>
-              <Flex className="weatherDataRow">
-                <Text className="weatherTitle">Wind Speed</Text>
-                <Text className="weatherValue">
-                  {currentConditions[0]?.Wind.Speed.Metric.Value}
-                  {currentConditions[0]?.Wind.Speed.Metric.Unit}
-                </Text>
-              </Flex>
+
               <Flex className="weatherDataRow">
                 <Text className="weatherTitle">Wind Gust</Text>
                 <Text className="weatherValue">
@@ -303,18 +372,7 @@ const Weather = (props: Props) => {
                   {currentConditions[0]?.WindGust.Speed.Metric.Unit}
                 </Text>
               </Flex>
-              <Flex className="weatherDataRow">
-                <Text className="weatherTitle">UV Index</Text>
-                <Text className="weatherValue">
-                  {currentConditions[0]?.UVIndex}
-                </Text>
-              </Flex>
-              <Flex className="weatherDataRow">
-                <Text className="weatherTitle">UV Index Text</Text>
-                <Text className="weatherValue">
-                  {currentConditions[0]?.UVIndexText}
-                </Text>
-              </Flex>
+
               <Flex className="weatherDataRow">
                 <Text className="weatherTitle">Visibility</Text>
                 <Text className="weatherValue">
@@ -344,6 +402,21 @@ const Weather = (props: Props) => {
                 </Text>
               </Flex>
             </Box>
+            <Button
+              onClick={() => setShowAllCurrentConditions((prev) => !prev)}
+              border="none"
+              bg="none"
+              cursor="pointer"
+              padding="0px"
+              width="20px"
+              my="10px"
+            >
+              {!showAllCurrentCondition ? (
+                <FaArrowDown size="14px" color={colors?.text} />
+              ) : (
+                <FaArrowUp size="14px" color={colors?.text} />
+              )}
+            </Button>
           </Flex>
         )}
     </WeatherStyled>

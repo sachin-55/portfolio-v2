@@ -29,6 +29,7 @@ export const ContainerStyled = styled.div<PageColorsStyledType>`
   background-size: contain;
   height: 100%;
   position: relative;
+  transition: 0.3s;
 `;
 
 export const InfoTextStyled = styled.div<PageColorsStyledType>`
@@ -37,7 +38,7 @@ export const InfoTextStyled = styled.div<PageColorsStyledType>`
     props.colors?.textDark ? 'calc(100% - 25rem)' : '9vw'};
   // bottom: ${(props) => (props.colors?.textDark ? 'calc( 39rem)' : '18rem')};
   // z-index: 10;
-  background: ${(props) =>
+  // background: ${(props) =>
     props.colors?.textDark ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)'};
   padding: 5px 8px;
   border-radius: 5px;
@@ -116,6 +117,26 @@ export const WeatherStyled = styled.div<PageColorsStyledType>`
   & .weatherValue {
     font-weight: 500;
     font-size: 1.6rem;
+  }
+
+  /* width */
+  & ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  & ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  & ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  & ::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
 `;
 export const MenuStyled = styled.div<PageColorsStyledType>`
