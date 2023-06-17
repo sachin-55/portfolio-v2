@@ -213,7 +213,7 @@ const Weather = (props: Props) => {
                     onClick={() => handleSelectLocation(val)}
                   >
                     <Text align="left" fontWeight="600">
-                      {val?.LocalizedName}123
+                      {val?.LocalizedName}
                     </Text>
                     <Flex align="center" justifyContent="space-between">
                       <Text>{val?.AdministrativeArea?.LocalizedName}</Text>
@@ -269,7 +269,7 @@ const Weather = (props: Props) => {
             marginTop="10px"
             padding="10px"
             borderRadius="10px"
-            alignItems="center"
+            // alignItems="center"
             justifyContent="center"
             direction="column"
           >
@@ -402,6 +402,7 @@ const Weather = (props: Props) => {
               padding="0px"
               width="20px"
               my="10px"
+              alignSelf="center"
             >
               {!showAllCurrentCondition ? (
                 <FaArrowDown size="14px" color={colors?.text} />
@@ -411,6 +412,7 @@ const Weather = (props: Props) => {
             </Button>
           </Flex>
         )}
+      <Text>Powered by Accu Weather.</Text>
     </WeatherStyled>
   );
 };
