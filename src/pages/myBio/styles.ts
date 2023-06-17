@@ -39,6 +39,19 @@ export const ResumeStyled = styled.div<PageColorsStyledType>`
     font-weight: 500;
     margin-bottom: 10px;
   }
+
+  & .academic-course {
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
+  & .academic-college {
+    font-size: 1.4rem;
+    font-weight: 400;
+  }
+  & .academic-year {
+    font-size: 1.4rem;
+    font-weight: 300;
+  }
 `;
 
 export const ResumeRowStyled = styled.div<PageColorsStyledType>`
@@ -52,13 +65,11 @@ export const ResumeRowStyled = styled.div<PageColorsStyledType>`
   }
 
   & .row-name {
-    width: 150px;
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: -5px;
   }
   & .row-email {
-    width: 150px;
     font-size: 1.8rem;
     font-weight: 300;
     margin-bottom: 15px;
@@ -88,7 +99,29 @@ export const ResumeExperienceRowStyled = styled.ol<PageColorsStyledType>`
   ul {
     margin-left: 4rem;
     & li {
-      text-indent: -2rem;
+      text-indent: -2.5rem;
+    }
+    & li .list-text {
+      display: inline;
+      font-size: 1.4rem;
+    }
+  }
+
+  & li {
+    font-size: 1.4rem;
+    &:last-child {
+      margin-bottom: 30px;
+    }
+  }
+`;
+
+export const ResumeSkillsAndStrengthRowStyled = styled.ul<PageColorsStyledType>`
+  list-style-position: inside;
+
+  ul {
+    margin-left: 4rem;
+    & li {
+      text-indent: -2.5rem;
     }
     & li .list-text {
       display: inline;
