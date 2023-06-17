@@ -29,6 +29,7 @@ export const ContainerStyled = styled.div<PageColorsStyledType>`
   background-size: contain;
   height: 100%;
   position: relative;
+  transition: 0.3s;
 `;
 
 export const InfoTextStyled = styled.div<PageColorsStyledType>`
@@ -37,7 +38,7 @@ export const InfoTextStyled = styled.div<PageColorsStyledType>`
     props.colors?.textDark ? 'calc(100% - 25rem)' : '9vw'};
   // bottom: ${(props) => (props.colors?.textDark ? 'calc( 39rem)' : '18rem')};
   // z-index: 10;
-  background: ${(props) =>
+  // background: ${(props) =>
     props.colors?.textDark ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)'};
   padding: 5px 8px;
   border-radius: 5px;
@@ -117,48 +118,24 @@ export const WeatherStyled = styled.div<PageColorsStyledType>`
     font-weight: 500;
     font-size: 1.6rem;
   }
-`;
-export const MenuStyled = styled.div<PageColorsStyledType>`
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
 
-  background: ${(props) => props.colors.primary};
-  color: ${(props) =>
-    props.colors.name === 'main'
-      ? props.colors.lightText
-      : props.colors.textDark};
-  padding: 2rem 3rem;
-  border-radius: 20px;
-  box-shadow: ${(props) =>
-    `0px 0px 20px 1px ${props.colors.name === 'main' ? '#000' : '#fff'}`};
-  border: 2px solid ${(props) => props.colors.highlight2};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  /* width */
+  & ::-webkit-scrollbar {
+    width: 5px;
+  }
 
-  & a {
-    font-size: 1.8rem;
-    text-decoration: none;
-    margin: 0px 10px;
-    color: ${(props) =>
-      props.colors.name === 'main'
-        ? props.colors.lightText
-        : props.colors.textDark};
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  /* Track */
+  & ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
 
-    & .icon {
-      height: 36px;
-      width: 36px;
-    }
-    &:hover {
-      font-weight: 700;
-    }
+  /* Handle */
+  & ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  & ::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
 `;

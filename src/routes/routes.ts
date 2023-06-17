@@ -1,4 +1,4 @@
-import { LandingPageLayout, NoLayout } from '../components/Layout';
+import { LandingPageLayout, MainLayout, NoLayout } from '../components/Layout';
 import {
   APIS_PAGE,
   BLOG_PAGE,
@@ -29,7 +29,7 @@ const routes = [
     name: 'My CV Page',
     path: My_CV_PAGE,
     component: MyCV,
-    layout: NoLayout,
+    layout: MainLayout,
     isProtected: false
   },
   {
@@ -37,7 +37,7 @@ const routes = [
     name: 'Blogs Page',
     path: BLOG_PAGE,
     component: Blogs,
-    layout: NoLayout,
+    layout: MainLayout,
     isProtected: false
   },
   {
@@ -45,7 +45,7 @@ const routes = [
     name: 'Projects Page',
     path: PROJECTS_PAGE,
     component: Projects,
-    layout: NoLayout,
+    layout: MainLayout,
     isProtected: false
   },
   {
@@ -53,7 +53,7 @@ const routes = [
     name: 'Contacts Page',
     path: CONTACT_PAGE,
     component: ContactInfo,
-    layout: NoLayout,
+    layout: MainLayout,
     isProtected: false
   },
   {
@@ -61,7 +61,7 @@ const routes = [
     name: 'Open APIs Page',
     path: APIS_PAGE,
     component: ExtraFun,
-    layout: NoLayout,
+    layout: MainLayout,
     isProtected: false
   },
 

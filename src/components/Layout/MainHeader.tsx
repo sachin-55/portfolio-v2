@@ -6,13 +6,13 @@ import { HeaderStyled, InfoTextStyled } from './styles';
 
 type Props = {};
 
-const Header = (props: Props) => {
+const MainHeader = (props: Props) => {
   const { colors, changeColors } = useCustomTheme();
   return (
     <HeaderStyled colors={colors}>
       <InfoTextStyled colors={colors}>
         <Text className="name">Hey! I'm Sachin</Text>
-        <Text className="sub-text"> I'm a Web Developer. </Text>
+        {/* <Text className="sub-text"> I'm a Web Developer. </Text> */}
       </InfoTextStyled>
       <Box>
         {colors.name === 'light' && (
@@ -30,18 +30,15 @@ const Header = (props: Props) => {
             onClick={() => changeColors({ color: 'light' })}
             marginRight="15px"
           >
-            <FaRegSun size={36} color={colors.primary} />
+            <FaRegSun size={36} color={colors.secondary} />
           </Button>
         )}
         <Button variant="unstyled">
-          <FaInfo
-            size={36}
-            color={colors.name === 'main' ? colors.primary : colors.secondary}
-          />
+          <FaInfo size={36} color={colors.secondary} />
         </Button>
       </Box>
     </HeaderStyled>
   );
 };
 
-export default Header;
+export default MainHeader;
