@@ -1,20 +1,24 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { ILayoutProps } from '.';
-import styled from 'styled-components';
 import Menu from './Menu';
-import { LandingPageLayoutStyled } from './styles';
+import { MainLayoutStyled } from './styles';
+import { useCustomTheme } from '../../context/themeContext';
+import Header from './MainHeader';
 
 export interface ILandingPageLayoutProps extends ILayoutProps {}
 
 const LandingPageLayout: React.FunctionComponent<ILandingPageLayoutProps> = ({
   children
 }) => {
+  const { colors } = useCustomTheme();
+
   return (
-    <LandingPageLayoutStyled>
+    <MainLayoutStyled colors={colors}>
+      <Header />
       {children ? children : <Outlet />}
       <Menu />
-    </LandingPageLayoutStyled>
+    </MainLayoutStyled>
   );
 };
 

@@ -15,9 +15,11 @@ import {
   APIS_PAGE,
   BLOG_PAGE,
   CONTACT_PAGE,
+  LANDING_PAGE,
   My_CV_PAGE,
   PROJECTS_PAGE
 } from '../../constants/routePaths';
+import { FaHome } from 'react-icons/fa';
 type Props = {};
 
 const docElmWithBrowsersFullScreenFunctions =
@@ -108,25 +110,28 @@ const Menu = (props: Props) => {
 
   return (
     <MenuStyled colors={colors}>
+      <Link to={LANDING_PAGE}>
+        <FaHome className="icon" />
+      </Link>
       <Link to={My_CV_PAGE}>
         <FcSurvey className="icon" />
-        CV
+        <Text className="icon-text">CV</Text>
       </Link>
       <Link to={BLOG_PAGE}>
         <FcReadingEbook className="icon" />
-        Blogs
+        <Text className="icon-text">Blogs</Text>
       </Link>
       <Link to={PROJECTS_PAGE}>
         <FcCommandLine className="icon" />
-        Projects
+        <Text className="icon-text">Projects</Text>
       </Link>
       <Link to={CONTACT_PAGE}>
         <FcContacts className="icon" />
-        Contact
+        <Text className="icon-text">Contact</Text>
       </Link>
       <Link to={APIS_PAGE}>
         <FcServices className="icon" />
-        API's
+        <Text className="icon-text">API's</Text>
       </Link>
       <Button
         border="none"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { WeatherStyled } from './styles';
 import { useCustomTheme } from '../../context/themeContext';
 import {
@@ -27,16 +27,6 @@ import { HiOutlineRefresh } from 'react-icons/hi';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 type Props = {};
 
-const INITIAL_LOCATION = {
-  Version: 1,
-  Key: '241833',
-  Type: 'City',
-  Rank: 75,
-  LocalizedName: 'Thimi',
-  Country: { ID: 'NP', LocalizedName: 'Nepal' },
-  AdministrativeArea: { ID: 'BA', LocalizedName: 'Bagmati' }
-};
-
 const Weather = (props: Props) => {
   const { colors } = useCustomTheme();
   const [locations, setLocations] = useState([]);
@@ -46,8 +36,7 @@ const Weather = (props: Props) => {
     gettingCurrent: false
   });
   const [searchLocation, setSearchLocation] = useState('');
-  const [selectedLocation, setSelectedLocation] =
-    useState<any>(INITIAL_LOCATION);
+  const [selectedLocation, setSelectedLocation] = useState<any>({});
   const [currentConditions, setCurrentConditions] = useState<any>([]);
   const locationsRef = React.useRef<HTMLDivElement>(null);
   const [showAllCurrentCondition, setShowAllCurrentConditions] =
@@ -60,26 +49,29 @@ const Weather = (props: Props) => {
     }
   });
 
-  const delayedSearch = debounce(async (text) => {
-    try {
-      setLoading((prev) => ({ ...prev, fetchingLocations: true }));
-      setLocations([]);
-      const URL =
-        ACCU_WEATHER +
-        ACCU_WEATHER_SEARCH_BY_TEXT.replaceAll(/{{QUERY}}/g, text).replaceAll(
-          /{{APIKEY}}/g,
-          API_KEY
-        );
-      const result = await axios(URL);
-      if (result?.data && result?.data?.length > 0) {
-        setLocations(result.data);
+  const delayedSearch = useCallback(
+    debounce(async (text) => {
+      try {
+        setLoading((prev) => ({ ...prev, fetchingLocations: true }));
+        setLocations([]);
+        const URL =
+          ACCU_WEATHER +
+          ACCU_WEATHER_SEARCH_BY_TEXT.replaceAll(/{{QUERY}}/g, text).replaceAll(
+            /{{APIKEY}}/g,
+            API_KEY
+          );
+        const result = await axios(URL);
+        if (result?.data && result?.data?.length > 0) {
+          setLocations(result.data);
+        }
+      } catch (error) {
+        console.log({ GET_LOCATIONS: error });
+      } finally {
+        setLoading((prev) => ({ ...prev, fetchingLocations: false }));
       }
-    } catch (error) {
-      console.log({ GET_LOCATIONS: error });
-    } finally {
-      setLoading((prev) => ({ ...prev, fetchingLocations: false }));
-    }
-  }, 1500);
+    }, 1500),
+    []
+  );
 
   useEffect(() => {
     if (localStorage && localStorage.getItem(SELECTED_WEATHER_LOCATION)) {
