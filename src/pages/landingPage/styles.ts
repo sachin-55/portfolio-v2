@@ -29,16 +29,18 @@ export const ContainerStyled = styled.div<PageColorsStyledType>`
   background-size: contain;
   height: 100%;
   position: relative;
+  transition: 0.3s;
 `;
 
 export const InfoTextStyled = styled.div<PageColorsStyledType>`
-  position: absolute;
-  left: ${(props) => (props.colors?.textDark ? 'calc(100% - 25rem)' : '9vw')};
-  bottom: ${(props) => (props.colors?.textDark ? 'calc( 39rem)' : '18rem')};
-  z-index: 10;
-  background: ${(props) =>
+  // position: absolute;
+  // left: ${(props) =>
+    props.colors?.textDark ? 'calc(100% - 25rem)' : '9vw'};
+  // bottom: ${(props) => (props.colors?.textDark ? 'calc( 39rem)' : '18rem')};
+  // z-index: 10;
+  // background: ${(props) =>
     props.colors?.textDark ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)'};
-  padding: 8px 10px;
+  padding: 5px 8px;
   border-radius: 5px;
   transition: 0.5s;
   .name {
@@ -57,11 +59,11 @@ export const InfoTextStyled = styled.div<PageColorsStyledType>`
 export const HeaderStyled = styled.div<PageColorsStyledType>`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
 
   background: rgba(255, 255, 255, 0.03);
   box-shadow: 0px 1px 1px 1px rgba(255, 255, 255, 0.07);
-  padding: 2rem 3rem;
+  padding: 1rem 4rem;
   font-size: 3rem;
   font-weight: 600;
   color: ${(props) =>
@@ -82,8 +84,12 @@ export const WeatherStyled = styled.div<PageColorsStyledType>`
   padding: 20px;
   border: 1px solid ${(props) => props?.colors?.gray};
   border-radius: 10px;
-  width: 30rem;
+  width: 35rem;
   text-align: center;
+  margin-left: ${(props) => (props.colors.name === 'main' ? '100%' : '0%')};
+  transform: ${(props) =>
+    props.colors.name === 'main' ? 'translatex(-100%)' : 'translatex(0%)'};
+  transition: 0.3s;
 
   .title {
     font-size: 2rem;
@@ -98,48 +104,38 @@ export const WeatherStyled = styled.div<PageColorsStyledType>`
     border-radius: 5px;
     border: none;
   }
-`;
-export const MenuStyled = styled.div<PageColorsStyledType>`
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
 
-  background: ${(props) => props.colors.primary};
-  color: ${(props) =>
-    props.colors.name === 'main'
-      ? props.colors.lightText
-      : props.colors.textDark};
-  padding: 2rem 3rem;
-  border-radius: 20px;
-  box-shadow: ${(props) =>
-    `0px 0px 20px 1px ${props.colors.name === 'main' ? '#000' : '#fff'}`};
-  border: 2px solid ${(props) => props.colors.highlight2};
-  width: 30vw;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  & a {
-    font-size: 1.8rem;
-    text-decoration: none;
-    margin: 0px 8px;
-    color: ${(props) =>
-      props.colors.name === 'main'
-        ? props.colors.lightText
-        : props.colors.textDark};
-    transition: 0.3s;
+  & .weatherDataRow {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    justify-content: space-between;
+  }
+  & .weatherTitle {
+    font-weight: bold;
+    font-size: 1.4rem;
+  }
+  & .weatherValue {
+    font-weight: 500;
+    font-size: 1.6rem;
+  }
 
-    & .icon {
-      height: 36px;
-      width: 36px;
-    }
-    &:hover {
-      font-weight: 700;
-    }
+  /* width */
+  & ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  & ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  & ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  & ::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
 `;
