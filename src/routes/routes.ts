@@ -4,14 +4,14 @@ import {
   BLOG_PAGE,
   CONTACT_PAGE,
   LANDING_PAGE,
-  My_CV_PAGE,
+  My_BIO_PAGE,
   PROJECTS_PAGE
 } from '../constants/routePaths';
 import { Blogs } from '../pages/blogs';
 import { ContactInfo } from '../pages/contactInfo';
 import { ExtraFun } from '../pages/extraFun';
 import { LandingPage } from '../pages/landingPage';
-import { MyCV } from '../pages/myCV';
+import { MyBio } from '../pages/myBio';
 import { NotFound } from '../pages/notFound';
 import { Projects } from '../pages/projects';
 
@@ -26,9 +26,9 @@ const routes = [
   },
   {
     id: 20,
-    name: 'My CV Page',
-    path: My_CV_PAGE,
-    component: MyCV,
+    name: 'My Bio Page',
+    path: My_BIO_PAGE,
+    component: MyBio,
     layout: MainLayout,
     isProtected: false
   },

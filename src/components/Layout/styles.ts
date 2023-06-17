@@ -3,10 +3,10 @@ import { PageColorsStyledType } from '../../@types/landingPage';
 
 export const MainLayoutStyled = styled.div<PageColorsStyledType>`
   min-height: 100vh;
-  padding-bottom: 150px;
   background: ${(props) => props.colors.background2};
   color: ${(props) => props.colors.text};
-  padding: 80px 50px 0px;
+  padding: 80px 50px 150px;
+  padding-bottom: 150px;
 `;
 
 export const LandingPageLayoutStyled = styled.div`
