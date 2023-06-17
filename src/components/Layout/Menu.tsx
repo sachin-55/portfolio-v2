@@ -16,7 +16,7 @@ import {
   BLOG_PAGE,
   CONTACT_PAGE,
   LANDING_PAGE,
-  My_CV_PAGE,
+  My_BIO_PAGE,
   PROJECTS_PAGE
 } from '../../constants/routePaths';
 import { FaHome } from 'react-icons/fa';
@@ -113,9 +113,9 @@ const Menu = (props: Props) => {
       <Link to={LANDING_PAGE}>
         <FaHome className="icon" />
       </Link>
-      <Link to={My_CV_PAGE}>
+      <Link to={My_BIO_PAGE}>
         <FcSurvey className="icon" />
-        <Text className="icon-text">CV</Text>
+        <Text className="icon-text">Bio</Text>
       </Link>
       <Link to={BLOG_PAGE}>
         <FcReadingEbook className="icon" />
