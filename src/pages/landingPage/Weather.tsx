@@ -412,6 +412,7 @@ const Weather = (props: Props) => {
             </Button>
           </Flex>
         )}
+      <Text>Powered by Accu Weather.</Text>
     </WeatherStyled>
   );
 };
