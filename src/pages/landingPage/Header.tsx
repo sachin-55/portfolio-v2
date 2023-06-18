@@ -21,7 +21,7 @@ const Header = (props: Props) => {
             onClick={() => changeColors({ color: 'main' })}
             marginRight="15px"
           >
-            <FaSun size={36} color={colors.secondary} />
+            <FaSun className="icon" color={colors.secondary} />
           </Button>
         )}
         {colors.name === 'main' && (
@@ -30,12 +30,12 @@ const Header = (props: Props) => {
             onClick={() => changeColors({ color: 'light' })}
             marginRight="15px"
           >
-            <FaRegSun size={36} color={colors.primary} />
+            <FaRegSun className="icon" color={colors.primary} />
           </Button>
         )}
         <Button variant="unstyled">
           <FaInfo
-            size={36}
+            className="icon"
             color={colors.name === 'main' ? colors.primary : colors.secondary}
           />
         </Button>

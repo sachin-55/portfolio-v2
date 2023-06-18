@@ -321,6 +321,8 @@ const Resume = (props: Props) => {
         <li> Multitasking,</li>
         <li> Enjoy working on challenging tasks,</li>
       </ResumeSkillsAndStrengthRowStyled>
+      <Text className="bio-title">Reference </Text>
+      <Text className="bio-sub-title">Can be made available on request. </Text>
     </ResumeStyled>
   );
 };

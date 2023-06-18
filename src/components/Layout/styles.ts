@@ -7,6 +7,10 @@ export const MainLayoutStyled = styled.div<PageColorsStyledType>`
   color: ${(props) => props.colors.text};
   padding: 80px 50px 150px;
   padding-bottom: 150px;
+
+  @media (max-width: 620px) {
+    padding: 80px 10px 150px;
+  }
 `;
 
 export const LandingPageLayoutStyled = styled.div`
@@ -37,7 +41,6 @@ export const MenuStyled = styled.div<PageColorsStyledType>`
 
   & a {
     text-decoration: none;
-    margin: 0px 10px;
     color: ${(props) =>
       props.colors.name === 'main'
         ? props.colors.lightText
@@ -57,6 +60,33 @@ export const MenuStyled = styled.div<PageColorsStyledType>`
     }
     &:hover {
       font-weight: 700;
+    }
+  }
+
+  @media print {
+    display: none;
+  }
+
+  @media (min-width: 540px) {
+    & a {
+      margin: 0px 12px;
+    }
+  }
+  @media (max-width: 540px) {
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    transform: translateX(0%);
+    padding: 1.5rem 1rem;
+    border-radius: 0px;
+    & a {
+      & .icon {
+        height: 24px;
+        width: 24px;
+      }
+      & .icon-text {
+        font-size: 1.4rem;
+      }
     }
   }
 `;
@@ -86,7 +116,7 @@ export const HeaderStyled = styled.div<PageColorsStyledType>`
   top: 0px;
   left: 0px;
   right: 0px;
-
+  z-index: 100;
   background: ${(props) => props.colors.primary};
   box-shadow: 0px 1px 1px 1px rgba(255, 255, 255, 0.3);
   padding: 1rem 4rem;
@@ -104,5 +134,15 @@ export const HeaderStyled = styled.div<PageColorsStyledType>`
     background: none;
     color: yellow;
     cursor: pointer;
+  }
+
+  @media print {
+    position: relative;
+    padding: 1rem 0rem;
+    margin-top: 0px;
+  }
+
+  @media (max-width: 620px) {
+    padding: 1rem 1rem;
   }
 `;
