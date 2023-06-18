@@ -134,6 +134,7 @@ const Menu = (props: Props) => {
         <Text className="icon-text">API's</Text>
       </Link>
       <Button
+        as="a"
         border="none"
         bg="none"
         cursor="pointer"
@@ -143,14 +144,14 @@ const Menu = (props: Props) => {
       >
         {!isFullScreen ? (
           <RxEnterFullScreen
-            size="50px"
+            className="icon"
             color={
               colors?.name === 'main' ? colors?.lightText : colors?.textDark
             }
           />
         ) : (
           <RxExitFullScreen
-            size="50px"
+            className="icon"
             color={
               colors?.name === 'main' ? colors?.lightText : colors?.textDark
             }

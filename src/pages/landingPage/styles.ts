@@ -54,6 +54,17 @@ export const InfoTextStyled = styled.div<PageColorsStyledType>`
     font-size: 1.4rem;
     font-weight: 500;
   }
+
+  @media (max-width: 400px) {
+    padding: 0px 5px;
+
+    .name {
+      font-size: 2.2rem;
+    }
+    .sub-text {
+      font-size: 1.2rem;
+    }
+  }
 `;
 
 export const HeaderStyled = styled.div<PageColorsStyledType>`
@@ -78,6 +89,21 @@ export const HeaderStyled = styled.div<PageColorsStyledType>`
     background: none;
     color: yellow;
     cursor: pointer;
+
+    & .icon {
+      height: 36px;
+      width: 36px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    padding: 1rem 1rem;
+    & button {
+      & .icon {
+        height: 24px;
+        width: 24px;
+      }
+    }
   }
 `;
 export const WeatherStyled = styled.div<PageColorsStyledType>`
@@ -137,5 +163,10 @@ export const WeatherStyled = styled.div<PageColorsStyledType>`
   /* Handle on hover */
   & ::-webkit-scrollbar-thumb:hover {
     background: #555;
+  }
+
+  @media (max-width: 400px) {
+    margin-left: 50%;
+    transform: translatex(-50%);
   }
 `;
