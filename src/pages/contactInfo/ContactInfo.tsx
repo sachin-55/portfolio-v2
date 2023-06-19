@@ -148,7 +148,7 @@ const ContactInfo = (props: Props) => {
         </Flex>
       </Flex>
 
-      <Flex className="contact-info-row">
+      {/* <Flex className="contact-info-row">
         <Flex alignItems="center">
           <Box className="social-image">
             <FaSlack
@@ -160,7 +160,7 @@ const ContactInfo = (props: Props) => {
             Slack <span className="username">[ Use above email address.]</span>
           </Text>
         </Flex>
-      </Flex>
+      </Flex> */}
     </ContactInfoStyled>
   );
 };

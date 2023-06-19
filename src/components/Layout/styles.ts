@@ -14,8 +14,8 @@ export const MainLayoutStyled = styled.div<PageColorsStyledType>`
 `;
 
 export const LandingPageLayoutStyled = styled.div`
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  // overflow: hidden;
 `;
 
 export const MenuStyled = styled.div<PageColorsStyledType>`
@@ -92,7 +92,9 @@ export const MenuStyled = styled.div<PageColorsStyledType>`
 `;
 
 export const InfoTextStyled = styled.div<PageColorsStyledType>`
-  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  padding: 0px 8px;
   border-radius: 5px;
   transition: 0.3s;
   .name {

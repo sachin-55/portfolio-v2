@@ -171,7 +171,12 @@ const Weather = (props: Props) => {
           <HiOutlineRefresh size="24px" color={colors?.text} />
         </Button>
       </Flex>
-      <Flex justifyContent="space-between" alignItems="center" w="100%">
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        w="100%"
+        wrap="wrap-reverse"
+      >
         <Text className="title">Today</Text>
         <Box position="relative" ref={locationsRef}>
           <Flex position="relative">
