@@ -15,54 +15,64 @@ export const LandingPageStyled = styled.div<
     props?.colors?.textDark
       ? `linear-gradient(180deg,${props.colors.primary} ,${props.colors.secondary} )`
       : `linear-gradient(60deg,${props.colors.primary},${props.colors.secondary})`};
-  height: 100%;
+  min-height: 100vh;
   transition: background 1s;
   color: ${(props) => props?.colors.text};
 `;
 
 export const ContainerStyled = styled.div<PageColorsStyledType>`
-  margin: 2rem 4rem;
+  margin: 0rem 4rem 0rem;
+  padding: 110px 1rem;
   background: ${(props) =>
-    ` url(${props.colors?.textDark ? ShirtSide : DenimShirt}) no-repeat ${
-      props?.colors?.textDark ? 'calc(100% + 5px)  0px' : 'calc(0% - 5px) 20vh'
+    ` url(${
+      props.colors?.name !== 'main' ? ShirtSide : DenimShirt
+    }) no-repeat ${
+      props?.colors?.name !== 'main'
+        ? 'calc(100% - 35px)  90px'
+        : 'calc(0% + 40px) 35vh'
     }`};
   background-size: contain;
-  height: 100%;
+  background-attachment: fixed;
+
+  min-height: 100vh;
   position: relative;
   transition: 0.3s;
+
+  @media (max-width: 400px) {
+    margin: 0rem 1rem 0rem;
+  }
 `;
 
 export const InfoTextStyled = styled.div<PageColorsStyledType>`
-  // position: absolute;
-  // left: ${(props) =>
-    props.colors?.textDark ? 'calc(100% - 25rem)' : '9vw'};
-  // bottom: ${(props) => (props.colors?.textDark ? 'calc( 39rem)' : '18rem')};
-  // z-index: 10;
-  // background: ${(props) =>
-    props.colors?.textDark ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.2)'};
+  display: flex;
+  align-items: center;
   padding: 5px 8px;
   border-radius: 5px;
   transition: 0.5s;
-  .name {
-    font-size: 2.7rem;
-    font-weight: 600;
-    color: ${(props) => props.colors.text};
-    text-shadow: 0px 1px 2px #000;
-    transition: 1.3s;
-  }
-  .sub-text {
-    font-size: 1.4rem;
-    font-weight: 500;
+
+  .text-wrapper {
+    .name {
+      font-size: 2.7rem;
+      font-weight: 600;
+      color: ${(props) => props.colors.text};
+      text-shadow: 0px 1px 2px #000;
+      transition: 1.3s;
+    }
+    .sub-text {
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
   }
 
   @media (max-width: 400px) {
     padding: 0px 5px;
-
-    .name {
-      font-size: 2.2rem;
-    }
-    .sub-text {
-      font-size: 1.2rem;
+    .text-wrapper {
+      .name {
+        font-size: 2.2rem;
+      }
+      .sub-text {
+        font-size: 1.2rem;
+      }
     }
   }
 `;
@@ -71,6 +81,11 @@ export const HeaderStyled = styled.div<PageColorsStyledType>`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 100;
 
   background: rgba(255, 255, 255, 0.03);
   box-shadow: 0px 1px 1px 1px rgba(255, 255, 255, 0.07);
@@ -168,5 +183,6 @@ export const WeatherStyled = styled.div<PageColorsStyledType>`
   @media (max-width: 400px) {
     margin-left: 50%;
     transform: translatex(-50%);
+    width: 100%;
   }
 `;
