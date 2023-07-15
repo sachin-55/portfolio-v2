@@ -1,17 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCustomTheme } from '../../context/themeContext';
 import { BlogsStyled } from './styles';
-import { EditorWriter } from '../../components/Editor';
+import Editor from '../../components/Editor';
 
 type Props = {};
 
-function Blogs({}: Props) {
+const Blogs = ({}: Props) => {
   const { colors } = useCustomTheme();
+  const [editorState, setEditorState] = useState<string>('');
+  const [files, setFiles] = useState<[any] | []>([]);
+  const [initialContent, setInitialContent] = useState('');
+
+  const handleEditorChange = (edits: string) => {
+    setEditorState(edits);
+  };
+
+  const onFilesChange = (files: [any] | null) => {
+    if (files && Array.isArray(files) && files.length > 0) {
+      setFiles(files);
+    }
+  };
   return (
     <BlogsStyled colors={colors}>
-      <EditorWriter />
+      <Editor
+        onEditorChange={handleEditorChange}
+        onFilesChange={onFilesChange}
+        initialContent={initialContent}
+        placeholder="Start Typing Here ..."
+      />
     </BlogsStyled>
   );
-}
+};
 
 export default Blogs;
