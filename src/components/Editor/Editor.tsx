@@ -8,6 +8,7 @@ import { BiImageAdd, BiVideoPlus, BiFile } from 'react-icons/bi';
 
 import './editor.css';
 import { Clipboard, FileBlot, ImageBlot, PollBlot, VideoBlot } from './helpers';
+import { colors, highlightColors, tcolors } from './colors';
 
 const __ISMSIE__ = navigator.userAgent.match(/Trident/i) ? true : false;
 
@@ -414,26 +415,19 @@ class CustomEditor extends Component<Props, State> {
             defaultValue="black"
             onChange={(e) => e.persist()}
           >
-            <option value="red" />
-            <option value="green" />
-            <option value="blue" />
-            <option value="yellow" />
-            <option value="cyan" />
-            <option value="black" />
-            <option value="white" />
+            {tcolors.map((val) => (
+              <option value={val} />
+            ))}
           </select>
+
           <select
             className="ql-background"
             defaultValue="white"
             onChange={(e) => e.persist()}
           >
-            <option value="red" />
-            <option value="green" />
-            <option value="blue" />
-            <option value="yellow" />
-            <option value="cyan" />
-            <option value="white" />
-            <option value="black" />
+            {highlightColors.map((val) => (
+              <option value={val} />
+            ))}
           </select>
           <button className="ql-insertImage">
             <BiImageAdd />
