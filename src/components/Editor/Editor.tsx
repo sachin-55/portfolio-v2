@@ -1,199 +1,68 @@
 import React, { Component } from 'react';
-import ReactQuill, { Quill, defaultProps } from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import axios from 'axios';
-import PropTypes from 'prop-types';
-
 import 'react-quill/dist/quill.snow.css';
+import PropTypes from 'prop-types';
+import { GoListOrdered, GoListUnordered } from 'react-icons/go';
+import { BiImageAdd, BiVideoPlus, BiFile } from 'react-icons/bi';
+
 import './editor.css';
+import { Clipboard, FileBlot, ImageBlot, PollBlot, VideoBlot } from './helpers';
 
 const __ISMSIE__ = navigator.userAgent.match(/Trident/i) ? true : false;
 
-const QuillClipboard = Quill.import('modules/clipboard');
-
-class Clipboard extends QuillClipboard {
-  getMetaTagElements = (stringContent) => {
-    const el = document.createElement('div');
-    el.innerHTML = stringContent;
-    return el.getElementsByTagName('meta');
-  };
-
-  async onPaste(e) {
-    const clipboardData = e.clipboardData || window.clipboardData;
-    const pastedData = await clipboardData.getData('Text');
-
-    const urlMatches = pastedData.match(/\b(http|https)?:\/\/\S+/gi) || [];
-
-    if (urlMatches.length > 0) {
-      e.preventDefault();
-      urlMatches.forEach((link) => {
-        axios
-          .get(link)
-          .then((payload) => {
-            // let title, image, url, description;
-            let title, image, url;
-            for (let node of this.getMetaTagElements(payload)) {
-              if (node.getAttribute('property') === 'og:title') {
-                title = node.getAttribute('content');
-              }
-              if (node.getAttribute('property') === 'og:image') {
-                image = node.getAttribute('content');
-              }
-              if (node.getAttribute('property') === 'og:url') {
-                url = node.getAttribute('content');
-              }
-              // if (node.getAttribute("property") === "og:description") {
-              //     description = node.getAttribute("content");
-              // }
-            }
-
-            const rendered = `<a href=${url} target="_blank"><div><img src=${image} alt=${title} width="20%"/><span>${title}</span></div></a>`;
-
-            let range = this.quill.getSelection();
-            let position = range ? range.index : 0;
-            this.quill.pasteHTML(position, rendered, 'silent');
-            this.quill.setSelection(position + rendered.length);
-          })
-          .catch((error) => console.error(error));
-      });
-    } else {
-      //console.log('when to use this') Normally, paste it elsewhere and then copy it.
-      super.onPaste(e);
-    }
-  }
-}
-
 Quill.register('modules/clipboard', Clipboard, true);
 
-const BlockEmbed = Quill.import('blots/block/embed');
-
-class ImageBlot extends BlockEmbed {
-  static create(value) {
-    const imgTag = super.create();
-    imgTag.setAttribute('src', value.src);
-    imgTag.setAttribute('alt', value.alt);
-    imgTag.setAttribute('width', '75%');
-    imgTag.classList.add('imageUpload');
-
-    return imgTag;
-  }
-
-  static value(node) {
-    return { src: node.getAttribute('src'), alt: node.getAttribute('alt') };
-  }
-}
 ImageBlot.blotName = 'image';
 ImageBlot.tagName = 'img';
 Quill.register(ImageBlot);
 
-class VideoBlot extends BlockEmbed {
-  static create(value) {
-    if (value && value.src) {
-      const videoTag = super.create();
-      videoTag.setAttribute('src', value.src);
-      videoTag.setAttribute('title', value.title);
-      videoTag.setAttribute('width', '80%');
-      videoTag.setAttribute('controls', '');
-
-      return videoTag;
-    } else {
-      const iframeTag = document.createElement('iframe');
-      iframeTag.setAttribute('src', value);
-      iframeTag.setAttribute('frameborder', '0');
-      iframeTag.setAttribute('allowfullscreen', true);
-      iframeTag.setAttribute('width', '100%');
-      return iframeTag;
-    }
-  }
-
-  static value(node) {
-    if (node.getAttribute('title')) {
-      return { src: node.getAttribute('src'), alt: node.getAttribute('title') };
-    } else {
-      return node.getAttribute('src');
-    }
-    // return { src: node.getAttribute('src'), alt: node.getAttribute('title') };
-  }
-}
 VideoBlot.blotName = 'video';
 VideoBlot.tagName = 'video';
 Quill.register(VideoBlot);
 
-class FileBlot extends BlockEmbed {
-  static create(value) {
-    const prefixTag = document.createElement('span');
-    prefixTag.innerText = 'Attachments - ';
-
-    const bTag = document.createElement('b');
-    // The file name appears next to the text of the attachment using the b tag.
-    bTag.innerText = value;
-
-    const linkTag = document.createElement('a');
-    linkTag.setAttribute('href', value);
-    linkTag.setAttribute('target', '_blank');
-    linkTag.setAttribute('className', 'file-link-inner-post');
-    linkTag.appendChild(bTag);
-    //linkTag Comes out like this<a href="btn_editPic@3x.png" target="_blank" classname="file-link-inner-post"><b>btn_editPic@3x.png</b></a>
-
-    const node = super.create();
-    node.appendChild(prefixTag);
-    node.appendChild(linkTag);
-
-    return node;
-  }
-
-  static value(node) {
-    const linkTag = node.querySelector('a');
-    return linkTag.getAttribute('href');
-  }
-}
 FileBlot.blotName = 'file';
 FileBlot.tagName = 'p';
 FileBlot.className = 'file-inner-post';
 Quill.register(FileBlot);
-
-class PollBlot extends BlockEmbed {
-  static create(value) {
-    const prefixTag = document.createElement('span');
-    prefixTag.innerText = 'vote - ';
-
-    const bTag = document.createElement('b');
-    bTag.innerText = value.title;
-
-    const node = super.create();
-    node.setAttribute('id', value.id);
-    node.appendChild(prefixTag);
-    node.appendChild(bTag);
-
-    return node;
-  }
-
-  static value(node) {
-    const id = node.getAttribute('id');
-    const bTag = node.querySelector('b');
-    const title = bTag.innerText;
-    return { id, title };
-  }
-}
 
 PollBlot.blotName = 'poll';
 PollBlot.tagName = 'p';
 PollBlot.className = 'poll-inner-post';
 Quill.register(PollBlot);
 
-class CustomEditor extends Component {
-  bandId;
+interface Props {
+  onEditorChange: Function;
+  onFilesChange: Function;
+  onPollsChange?: Function;
+  initialContent: string;
+  placeholder?: string;
+}
 
-  placeholder;
+interface State {
+  editorHtml: string;
+  files: [File] | [];
+}
 
-  onEditorChange;
+class CustomEditor extends Component<Props, State> {
+  // bandId;
 
-  onFilesChange;
+  // placeholder;
 
-  onPollsChange;
+  // onEditorChange;
 
-  _isMounted;
+  // onFilesChange;
 
-  constructor(props) {
+  // onPollsChange;
+
+  _isMounted = false;
+
+  private reactQuillRef: React.RefObject<ReactQuill | null> | null;
+  private inputOpenImageRef: React.RefObject<HTMLInputElement>;
+  private inputOpenVideoRef: React.RefObject<HTMLInputElement>;
+  private inputOpenFileRef: React.RefObject<HTMLInputElement>;
+
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -201,7 +70,7 @@ class CustomEditor extends Component {
       files: []
     };
 
-    this.reactQuillRef = null;
+    this.reactQuillRef = React.createRef();
     this.inputOpenImageRef = React.createRef();
     this.inputOpenVideoRef = React.createRef();
     this.inputOpenFileRef = React.createRef();
@@ -215,7 +84,7 @@ class CustomEditor extends Component {
     this._isMounted = false;
   }
 
-  handleChange = (html) => {
+  handleChange = (html: string) => {
     this.setState(
       {
         editorHtml: html
@@ -227,18 +96,22 @@ class CustomEditor extends Component {
   };
 
   imageHandler = () => {
-    this.inputOpenImageRef.current.click();
+    if (this.inputOpenImageRef?.current) this.inputOpenImageRef.current.click();
   };
 
   videoHandler = () => {
-    this.inputOpenVideoRef.current.click();
+    if (this.inputOpenVideoRef?.current) this.inputOpenVideoRef.current.click();
   };
 
   fileHandler = () => {
-    this.inputOpenFileRef.current.click();
+    if (this.inputOpenFileRef?.current) this.inputOpenFileRef.current.click();
   };
 
-  insertImage = (e) => {
+  pollHandler = () => {
+    // if (this.inputOpenPollRef?.current) this.inputOpenPollRef.current.click();
+  };
+
+  insertImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -267,28 +140,32 @@ class CustomEditor extends Component {
           console.log();
 
           if (response.data.status === 'success') {
-            const quill = this.reactQuillRef.getEditor();
-            quill.focus();
+            if (this.reactQuillRef) {
+              //@ts-ignores-ignore
+              const quill = this.reactQuillRef.getEditor();
+              quill.focus();
 
-            let range = quill.getSelection();
-            let position = range ? range.index : 0;
+              let range = quill.getSelection();
+              let position = range ? range.index : 0;
 
-            quill.insertEmbed(position, 'image', {
-              src: response.data.result.secure_url,
-              alt: 'Test Image'
-            });
+              quill.insertEmbed(position, 'image', {
+                src: response.data.result.secure_url,
+                alt: 'Test Image'
+              });
 
-            quill.setSelection(position + 1);
+              quill.setSelection(position + 1);
 
-            if (this._isMounted) {
-              this.setState(
-                {
-                  files: [...this.state.files, file]
-                },
-                () => {
-                  this.props.onFilesChange(this.state.files);
-                }
-              );
+              if (this._isMounted) {
+                this.setState(
+                  {
+                    //@ts-ignores-ignore
+                    files: [...this.state.files, file]
+                  },
+                  () => {
+                    this.props.onFilesChange(this.state.files);
+                  }
+                );
+              }
             }
           } else {
             return alert('failed to upload file');
@@ -297,7 +174,7 @@ class CustomEditor extends Component {
     }
   };
 
-  insertVideo = (e) => {
+  insertVideo = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -326,28 +203,32 @@ class CustomEditor extends Component {
           console.log();
 
           if (response.data.status === 'success') {
-            const quill = this.reactQuillRef.getEditor();
-            quill.focus();
+            if (this.reactQuillRef) {
+              //@ts-ignores-ignore
+              const quill = this.reactQuillRef.getEditor();
+              quill.focus();
 
-            let range = quill.getSelection();
-            let position = range ? range.index : 0;
+              let range = quill.getSelection();
+              let position = range ? range.index : 0;
 
-            quill.insertEmbed(position, 'video', {
-              src: response.data.result.secure_url,
-              title: 'Test videos'
-            });
+              quill.insertEmbed(position, 'video', {
+                src: response.data.result.secure_url,
+                title: 'Test videos'
+              });
 
-            quill.setSelection(position + 1);
+              quill.setSelection(position + 1);
 
-            if (this._isMounted) {
-              this.setState(
-                {
-                  files: [...this.state.files, file]
-                },
-                () => {
-                  this.props.onFilesChange(this.state.files);
-                }
-              );
+              if (this._isMounted) {
+                this.setState(
+                  {
+                    //@ts-ignore
+                    files: [...this.state.files, file]
+                  },
+                  () => {
+                    this.props.onFilesChange(this.state.files);
+                  }
+                );
+              }
             }
           } else {
             return alert('failed to upload file');
@@ -356,7 +237,7 @@ class CustomEditor extends Component {
     }
   };
 
-  insertFile = (e) => {
+  insertFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -385,29 +266,33 @@ class CustomEditor extends Component {
           console.log();
 
           if (response.data.status === 'success') {
-            const quill = this.reactQuillRef.getEditor();
-            quill.focus();
+            if (this.reactQuillRef) {
+              //@ts-ignore
+              const quill = this.reactQuillRef.getEditor();
+              quill.focus();
 
-            let range = quill.getSelection();
-            let position = range ? range.index : 0;
+              let range = quill.getSelection();
+              let position = range ? range.index : 0;
 
-            quill.insertEmbed(
-              position,
-              'file',
-              response.data.result.secure_url
-            );
-
-            quill.setSelection(position + 1);
-
-            if (this._isMounted) {
-              this.setState(
-                {
-                  files: [...this.state.files, file]
-                },
-                () => {
-                  this.props.onFilesChange(this.state.files);
-                }
+              quill.insertEmbed(
+                position,
+                'file',
+                response.data.result.secure_url
               );
+
+              quill.setSelection(position + 1);
+
+              if (this._isMounted) {
+                this.setState(
+                  {
+                    //@ts-ignore
+                    files: [...this.state.files, file]
+                  },
+                  () => {
+                    this.props.onFilesChange(this.state.files);
+                  }
+                );
+              }
             }
           } else {
             return alert('failed to upload file');
@@ -470,10 +355,10 @@ class CustomEditor extends Component {
             <option value="right" />
           </select>
           <button className="ql-list" value="bullet">
-            UL
+            <GoListUnordered />
           </button>
           <button className="ql-list" value="ordered">
-            OL
+            <GoListOrdered />
           </button>
           <select
             className="ql-color"
@@ -501,9 +386,16 @@ class CustomEditor extends Component {
             <option value="white" />
             <option value="black" />
           </select>
-          <button className="ql-insertImage">Img</button>
-          <button className="ql-insertVideo">Vid</button>
-          <button className="ql-insertFile">File</button>
+          <button className="ql-insertImage">
+            <BiImageAdd />
+          </button>
+          <button className="ql-insertVideo">
+            <BiVideoPlus />
+          </button>
+          <button className="ql-insertFile">
+            {' '}
+            <BiFile />
+          </button>
           <button className="ql-link" />
           <button className="ql-code-block" />
           <button className="ql-video" />
@@ -511,10 +403,11 @@ class CustomEditor extends Component {
           <button className="ql-indent" value="-1" />
           <button className="ql-indent" value="+1" />
 
-          <button className="ql-clean" />
+          {/* <button className="ql-clean" /> */}
         </div>
         <ReactQuill
           ref={(el) => {
+            //@ts-ignore
             this.reactQuillRef = el;
           }}
           theme="snow"
@@ -585,8 +478,7 @@ class CustomEditor extends Component {
     'video',
     'blockquote',
     'indent',
-    'indent',
-    'clean'
+    'indent'
   ];
 }
 
