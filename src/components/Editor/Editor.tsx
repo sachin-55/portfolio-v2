@@ -11,6 +11,40 @@ import { Clipboard, FileBlot, ImageBlot, PollBlot, VideoBlot } from './helpers';
 
 const __ISMSIE__ = navigator.userAgent.match(/Trident/i) ? true : false;
 
+const fontSizeArr = [
+  '3px',
+  '6px',
+  '8px',
+  '10px',
+  '12px',
+  '14px',
+  '16px',
+  '18px',
+  '20px',
+  '22px',
+  '24px',
+  '26px',
+  '28px',
+  '30px',
+  '32px',
+  '34px',
+  '36px',
+  '42px',
+  '48px',
+  '54px',
+  '60px',
+  '72px'
+];
+var Size = Quill.import('attributors/style/size');
+Size.whitelist = fontSizeArr;
+Quill.register(Size, true);
+
+// Add fonts to whitelist
+let Font = Quill.import('formats/font');
+// We do not add Sans Serif since it is the default
+Font.whitelist = ['inconsolata', 'roboto', 'inter', 'lato', 'poppins', 'arial'];
+Quill.register(Font, true);
+
 Quill.register('modules/clipboard', Clipboard, true);
 
 ImageBlot.blotName = 'image';
@@ -305,6 +339,26 @@ class CustomEditor extends Component<Props, State> {
     return (
       <div style={{ width: '75%', margin: '0 auto' }}>
         <div id="toolbar">
+          <button className="ql-bold" />
+          <button className="ql-italic" />
+          <button className="ql-underline" />
+          <button className="ql-strike" />
+          <button className="ql-script" value="sub" />
+          <button className="ql-script" value="super" />
+
+          <select
+            className="ql-font"
+            defaultValue="Sans Serif"
+            onChange={(e) => e.persist()}
+          >
+            <option selected>Sans Serif</option>
+            <option value="inconsolata">Inconsolata</option>
+            <option value="roboto">Roboto</option>
+            <option value="inter">Inter</option>
+            <option value="lato">Lato</option>
+            <option value="poppins">Poppins</option>
+            <option value="arial">Arial</option>
+          </select>
           {/* <select
             className="ql-header"
             defaultValue=""
@@ -321,6 +375,15 @@ class CustomEditor extends Component<Props, State> {
           </select> */}
           <select
             className="ql-size"
+            defaultValue="12px"
+            onChange={(e) => e.persist()}
+          >
+            {fontSizeArr.map((val) => (
+              <option value={val}>{val.split('px')[0]}</option>
+            ))}
+          </select>
+          {/* <select
+            className="ql-size"
             defaultValue="false"
             onChange={(e) => e.persist()}
           >
@@ -328,21 +391,7 @@ class CustomEditor extends Component<Props, State> {
             <option value="false" />
             <option value="large" />
             <option value="huge" />
-          </select>
-          <select
-            className="ql-font"
-            defaultValue="Sans Serif"
-            onChange={(e) => e.persist()}
-          >
-            <option value="monospace" />
-            <option value="Sans Serif" />
-          </select>
-          <button className="ql-bold" />
-          <button className="ql-italic" />
-          <button className="ql-underline" />
-          <button className="ql-strike" />
-          <button className="ql-script" value="sub" />
-          <button className="ql-script" value="super" />
+          </select> */}
 
           <select
             className="ql-align"
