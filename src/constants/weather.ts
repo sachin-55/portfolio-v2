@@ -1,4 +1,4 @@
-export const ACCU_WEATHER = 'http://dataservice.accuweather.com/';
+export const ACCU_WEATHER = 'https://dataservice.accuweather.com/';
 
 export const ACCU_WEATHER_SEARCH_BY_TEXT =
   'locations/v1/cities/autocomplete?q={{QUERY}}&apikey={{APIKEY}}';

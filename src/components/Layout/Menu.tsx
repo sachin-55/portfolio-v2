@@ -16,7 +16,7 @@ import {
   BLOG_PAGE,
   CONTACT_PAGE,
   LANDING_PAGE,
-  My_CV_PAGE,
+  My_BIO_PAGE,
   PROJECTS_PAGE
 } from '../../constants/routePaths';
 import { FaHome } from 'react-icons/fa';
@@ -113,9 +113,9 @@ const Menu = (props: Props) => {
       <Link to={LANDING_PAGE}>
         <FaHome className="icon" />
       </Link>
-      <Link to={My_CV_PAGE}>
+      <Link to={My_BIO_PAGE}>
         <FcSurvey className="icon" />
-        <Text className="icon-text">CV</Text>
+        <Text className="icon-text">Bio</Text>
       </Link>
       <Link to={BLOG_PAGE}>
         <FcReadingEbook className="icon" />
@@ -134,6 +134,7 @@ const Menu = (props: Props) => {
         <Text className="icon-text">API's</Text>
       </Link>
       <Button
+        as="a"
         border="none"
         bg="none"
         cursor="pointer"
@@ -143,14 +144,14 @@ const Menu = (props: Props) => {
       >
         {!isFullScreen ? (
           <RxEnterFullScreen
-            size="50px"
+            className="icon"
             color={
               colors?.name === 'main' ? colors?.lightText : colors?.textDark
             }
           />
         ) : (
           <RxExitFullScreen
-            size="50px"
+            className="icon"
             color={
               colors?.name === 'main' ? colors?.lightText : colors?.textDark
             }
