@@ -8,6 +8,8 @@ interface IWEbsiteInformationsProps {}
 
 const WebsiteInformations = (props: IWEbsiteInformationsProps) => {
   const { colors } = useCustomTheme();
+  console.log({colors});
+  
   return (
     <WebsiteInformationsStyled colors={colors}>
       <VerticalStack>
@@ -19,7 +21,7 @@ const WebsiteInformations = (props: IWEbsiteInformationsProps) => {
             >
               <div className="category-title">{websites?.category}</div>
 
-              <VerticalStack space="14px">
+              <GridStack space="20px">
                 {Array.isArray(websites?.items) &&
                   websites?.items.map((wItems) => (
                     <div
@@ -33,7 +35,7 @@ const WebsiteInformations = (props: IWEbsiteInformationsProps) => {
                       </div>
                     </div>
                   ))}
-              </VerticalStack>
+              </GridStack>
             </div>
           ))}
       </VerticalStack>
@@ -48,6 +50,7 @@ const WebsiteInformationsStyled = styled.div<PageColorsStyledType>`
   padding: 30px;
   background-color: ${(props) => props.colors.background};
   border-radius: 20px;
+  width: 100%;
 
   & .websites-category-container {
     width: 100%;
@@ -62,6 +65,7 @@ const WebsiteInformationsStyled = styled.div<PageColorsStyledType>`
 
     & .items-wrapper {
       width: 100%;
+      height: 100%;
       padding: 20px;
       border-radius: 10px;
       background-color: ${(props) => props.colors.gray};
@@ -70,10 +74,16 @@ const WebsiteInformationsStyled = styled.div<PageColorsStyledType>`
       & .items-name {
         font-size: 1.6em;
         font-weight: 500;
+        text-align: center;
+        margin-bottom: 12px;
       }
       & .items-description {
         font-size: 1.4em;
         font-weight: 300;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
@@ -85,4 +95,13 @@ export const VerticalStack = styled.div<{ space?: string }>`
   align-items: start;
   flex-direction: column;
   gap: ${({ space }) => space || '30px'};
+`;
+
+export const GridStack = styled.div<{ minWidth?: string; space?: string }>`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: minmax(150px, 2fr);
+  gap: ${({ space }) => space || '30px'};
+  justify-items: center;
 `;
