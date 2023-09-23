@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/portfolio-v2/static/css/main.6a5cb4ad.css",
+    "main.js": "/portfolio-v2/static/js/main.e3f10671.js",
+    "static/js/787.1b5bfefd.chunk.js": "/portfolio-v2/static/js/787.1b5bfefd.chunk.js",
+    "static/media/denim-foto.png": "/portfolio-v2/static/media/denim-foto.137f740d81095ccb3aa8.png",
+    "static/media/shirt-side-foto.png": "/portfolio-v2/static/media/shirt-side-foto.028f624b42839ebaf362.png",
+    "static/media/SB_LOGO_1.png": "/portfolio-v2/static/media/SB_LOGO_1.1706a2e2fc5f8d6111e2.png",
+    "static/media/SB_LOGO_2.png": "/portfolio-v2/static/media/SB_LOGO_2.3612c802adab655064e8.png",
+    "static/media/17-s.png": "/portfolio-v2/static/media/17-s.4b8d4543699af9743509.png",
+    "static/media/41-s.png": "/portfolio-v2/static/media/41-s.da8960711b2a7bdd80c0.png",
+    "static/media/16-s.png": "/portfolio-v2/static/media/16-s.02f6796a4b217cbdd262.png",
+    "static/media/15-s.png": "/portfolio-v2/static/media/15-s.9aac7942a26db293440b.png",
+    "index.html": "/portfolio-v2/index.html",
+    "main.6a5cb4ad.css.map": "/portfolio-v2/static/css/main.6a5cb4ad.css.map",
+    "main.e3f10671.js.map": "/portfolio-v2/static/js/main.e3f10671.js.map",
+    "787.1b5bfefd.chunk.js.map": "/portfolio-v2/static/js/787.1b5bfefd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6a5cb4ad.css",
+    "static/js/main.e3f10671.js"
+  ]
+}
