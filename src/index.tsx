@@ -11,11 +11,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <CustomThemeProvider>
-      <Router basename="/portfolio-v2">
+    <Router basename="/portfolio-v2">
+      <CustomThemeProvider>
         <App />
-      </Router>
-    </CustomThemeProvider>
+      </CustomThemeProvider>
+    </Router>
   </React.StrictMode>
 );
 

@@ -131,7 +131,7 @@ const Menu = (props: Props) => {
       </Link>
       <Link to={APIS_PAGE}>
         <FcServices className="icon" />
-        <Text className="icon-text">API's</Text>
+        <Text className="icon-text">Extras</Text>
       </Link>
       <Button
         as="a"

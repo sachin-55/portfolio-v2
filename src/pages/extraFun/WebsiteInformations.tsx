@@ -8,8 +8,7 @@ interface IWEbsiteInformationsProps {}
 
 const WebsiteInformations = (props: IWEbsiteInformationsProps) => {
   const { colors } = useCustomTheme();
-  console.log({colors});
-  
+
   return (
     <WebsiteInformationsStyled colors={colors}>
       <VerticalStack>
@@ -46,7 +45,6 @@ const WebsiteInformations = (props: IWEbsiteInformationsProps) => {
 export default WebsiteInformations;
 
 const WebsiteInformationsStyled = styled.div<PageColorsStyledType>`
-  margin-top: 60px;
   padding: 30px;
   background-color: ${(props) => props.colors.background};
   border-radius: 20px;

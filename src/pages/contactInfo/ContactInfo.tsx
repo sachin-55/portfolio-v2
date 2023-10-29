@@ -14,7 +14,7 @@ import {
 } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { IoOpenOutline } from 'react-icons/io5';
-import WebsiteInformations from './WebsiteInformations';
+import WebsiteInformations from '../extraFun/WebsiteInformations';
 
 type Props = {};
 
@@ -163,7 +163,7 @@ const ContactInfo = (props: Props) => {
         </Flex>
       </Flex> */}
 
-      <WebsiteInformations />
+      {/* <WebsiteInformations /> */}
     </ContactInfoStyled>
   );
 };
