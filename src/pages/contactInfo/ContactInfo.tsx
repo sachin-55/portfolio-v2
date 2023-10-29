@@ -18,7 +18,7 @@ import WebsiteInformations from './WebsiteInformations';
 
 type Props = {};
 
-const LinkedInURL = 'https://www.linkedin.com/in/sachin-b-a690ab73/';
+const LinkedInURL = 'https://www.linkedin.com/in/sachin-55';
 const GithubURL = 'https://github.com/sachin-55';
 const EmailAddress = 'sachinbhattarai55@gmail.com';
 const PhoneNumber = 'On Request';

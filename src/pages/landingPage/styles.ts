@@ -24,16 +24,13 @@ export const ContainerStyled = styled.div<PageColorsStyledType>`
   margin: 0rem 4rem 0rem;
   padding: 110px 1rem;
   background: ${(props) =>
-    ` url(${
-      props.colors?.name !== 'main' ? ShirtSide : DenimShirt
-    }) no-repeat ${
-      props?.colors?.name !== 'main'
-        ? 'calc(100% - 35px)  90px'
-        : 'calc(0% + 40px) 35vh'
-    }`};
+    ` url(${DenimShirt}) no-repeat calc(0% + 40px) 35vh`};
   background-size: contain;
   background-attachment: fixed;
-
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 30px;
   min-height: 100vh;
   position: relative;
   transition: 0.3s;
@@ -127,9 +124,6 @@ export const WeatherStyled = styled.div<PageColorsStyledType>`
   border-radius: 10px;
   width: 35rem;
   text-align: center;
-  margin-left: ${(props) => (props.colors.name === 'main' ? '100%' : '0%')};
-  transform: ${(props) =>
-    props.colors.name === 'main' ? 'translatex(-100%)' : 'translatex(0%)'};
   transition: 0.3s;
 
   .title {
@@ -158,6 +152,53 @@ export const WeatherStyled = styled.div<PageColorsStyledType>`
   & .weatherValue {
     font-weight: 500;
     font-size: 1.6rem;
+  }
+
+  /* width */
+  & ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  & ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  & ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  & ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  @media (max-width: 400px) {
+    margin-left: 50%;
+    transform: translatex(-50%);
+    width: 100%;
+  }
+`;
+
+export const FirstMessageStyled = styled.div<PageColorsStyledType>`
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+  min-height: calc(50vh + 100px);
+
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  font-size: 2rem;
+  text-align: center;
+  color: ${({ colors }) => colors?.textDark};
+
+  & .heading {
+    font-size: 5rem;
+    font-weight: 600;
+    color: ${({ colors }) => colors?.text};
   }
 
   /* width */

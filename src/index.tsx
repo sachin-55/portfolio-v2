@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <CustomThemeProvider>
-      <Router>
+      <Router basename="/portfolio-v2">
         <App />
       </Router>
     </CustomThemeProvider>
