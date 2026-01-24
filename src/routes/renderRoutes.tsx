@@ -24,7 +24,6 @@ const renderNestedRoutes = (route: IRoutesArgs) => {
 };
 
 const renderRoutes = (routes: Array<IRoutesArgs>) => {
-  console.log({ routes });
   return routes.map((route) => {
     if (route.name === 'Not Found') {
       if (route.name === 'Not Found') {

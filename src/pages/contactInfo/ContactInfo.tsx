@@ -1,24 +1,14 @@
-import React from 'react';
+import { Box, Button, Flex, Text, useClipboard } from '@chakra-ui/react';
+import { FaCheck, FaCopy, FaGithub, FaLinkedin, FaPhone } from 'react-icons/fa';
+import { IoOpenOutline } from 'react-icons/io5';
+import { MdEmail } from 'react-icons/md';
+import { TitleBanner, TitleHeader } from '../../components/TitleAndBanner';
 import { useCustomTheme } from '../../context/themeContext';
 import { ContactInfoStyled } from './styles';
-import { Box, Button, Flex, Text, useClipboard } from '@chakra-ui/react';
-import { TitleBanner, TitleHeader } from '../../components/TitleAndBanner';
-import {
-  FaCopy,
-  FaGithub,
-  FaLinkedin,
-  FaPhone,
-  FaCheck,
-  FaFacebookMessenger,
-  FaSlack
-} from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
-import { IoOpenOutline } from 'react-icons/io5';
-import WebsiteInformations from '../extraFun/WebsiteInformations';
 
 type Props = {};
 
-const LinkedInURL = 'https://www.linkedin.com/in/sachin-55';
+const LinkedInURL = 'www.linkedin.com/in/5achin-bhattarai';
 const GithubURL = 'https://github.com/sachin-55';
 const EmailAddress = 'sachinbhattarai55@gmail.com';
 const PhoneNumber = 'On Request';
@@ -54,7 +44,7 @@ const ContactInfo = (props: Props) => {
             <FaLinkedin size="36px" color="#0077b5" />
           </Box>
           <Text className="social-title linkedIn">
-            LinkedIn <span className="username">[sachin-b-a690ab73]</span>
+            LinkedIn <span className="username">[5achin-bhattarai]</span>
           </Text>
         </Flex>
         <Flex className="button-wrapper">
